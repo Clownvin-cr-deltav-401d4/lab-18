@@ -1,7 +1,7 @@
-# LAB - 17
+# LAB - 18
 
-## TCP Server / Messages
-Refactor some filesystem logic to use events
+## Socket.IO server
+Refactored Lab 17 to use Socket.IO instead of default NodeJS net library
 
 ### Author: Calvin Hall
 
