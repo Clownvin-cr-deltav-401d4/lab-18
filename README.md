@@ -10,6 +10,9 @@ Refactor some filesystem logic to use events
 * [travis](https://www.travis-ci.com/Clownvin-cr-deltav-401d4/lab-17)
 
 ## Modules
+### app
+Connects to the server and emits any events that happen.
+Reads a file given in the command line, and saves the file but all uppercased. Emits events based on what happens.
 ### edit-file
 #### readFile(file)
 Reads a file and returns its contents. Also emits a "read" event to the file-events
@@ -19,16 +22,14 @@ Writes a file with the data. Also emits a "write" event to the file-events
 An EventEmitter which represents events for files
 ### logger
 Listens for file-events, and logs them.
-### event-server
+### server
 Connects to clients and relays event data between them
-### event-client
-Connects to an event server and re-emits any events that it sends.
 
 #### Running the app
 You'll have to start 3 apps:
-* `node event-server.js`
-* `node logger.js`
-* `node app.js test.txt`
+* `node server/server.js`
+* `node logger/logger.js`
+* `node app/app.js test.txt`
   
 #### Tests
 * `npm test`
