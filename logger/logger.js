@@ -1,8 +1,11 @@
 'use-strict';
 
-require('./src/event-client');
+const io = require('socket.io-client');
 
-const events = require('./src/events/file-events');
+const url = process.env.URL || 'http://localhost:3000';
+
+const socket = io.connect(url);
+console.log(`Connected to ${url}`);
 
 let count = 0;
 
@@ -14,8 +17,10 @@ function err(string) {
   console.error(`Log #${++count}: ${string}`);
 }
 
-events.on('error', error => err(`Experienced error: ${error}`));
+socket.on('file-error', error => {
+  err(`Experienced error: ${error}`);
+});
 
 //events.on('read', file => log(`Read ${file}.`));
 
-events.on('write', file => log(`${file} saved.`));
+socket.on('file-save', data => log(`${data.file} saved.`));
