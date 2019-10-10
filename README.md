@@ -6,7 +6,8 @@ Refactored Lab 17 to use Socket.IO instead of default NodeJS net library
 ### Author: Calvin Hall
 
 ### Links and Resources
-* [submission PR](https://github.com/Clownvin-cr-deltav-401d4/lab-18/pull/1)
+* [submission PR(lab-18)](https://github.com/Clownvin-cr-deltav-401d4/lab-18/pull/1)
+* [submission PR(lab-19)](https://github.com/Clownvin-cr-deltav-401d4/lab-18/pull/2)
 * [travis](https://www.travis-ci.com/Clownvin-cr-deltav-401d4/lab-18)
 
 ## Modules
