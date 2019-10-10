@@ -1,39 +1,14 @@
 'use strict';
 
-const io = require('socket.io');
+const Q = require('@nmq/q/server');
+Q.start();
 
-const uuid = require('uuid');
+const db = new Q('database');
+db.monitorEvent('create');
+db.monitorEvent('read');
+db.monitorEvent('update');
+db.monitorEvent('delete');
 
-const port = process.env.PORT || 3000;
-const server = io(port);
-
-console.log(`Server listening on port: ${port}`);
-
-let socketPool = {};
-
-const eventNames = ['file-save', 'file-error'];
-
-server.on('connection', (socket) => {
-  const id = `Socket-${uuid()}`;
-  console.log(`Added connection: ${id}`);
-  socketPool[id] = socket;
-
-  for (const event of eventNames) {
-    socket.on(event, dispatchEvent(id, event));
-  }
-
-  socket.on('disconnect', () => {
-    console.log(`${id} closed`);
-    delete socketPool[id];
-  });
-});
-
-let dispatchEvent = (sourceId, event) => (buffer) => {
-  for (let id in socketPool) {
-    if (id === sourceId) {
-      continue;
-    }
-    console.log(`Sending to ${id}: ${event}: ${buffer}`);
-    socketPool[id].emit(event, buffer);
-  }
-};
+const network = new Q('files');
+network.monitorEvent('save');
+network.monitorEvent('error');

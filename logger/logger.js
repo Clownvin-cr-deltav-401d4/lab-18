@@ -1,26 +1,29 @@
-'use-strict';
 
-const io = require('socket.io-client');
+const Q = require('@nmq/q/client');
 
-const url = process.env.URL || 'http://localhost:3000';
+const db = new Q('database');
+const files = new Q('files');
 
-const socket = io.connect(url);
-console.log(`Connected to ${url}`);
-
-let count = 0;
-
-function log(string) {
-  console.log(`Log #${++count}: ${string}`);
-}
-
-function err(string) {
-  console.error(`Log #${++count}: ${string}`);
-}
-
-socket.on('file-error', error => {
-  err(`Experienced error: ${error}`);
+db.subscribe('create', payload => {
+  console.log('create:', payload);
 });
 
-//events.on('read', file => log(`Read ${file}.`));
+db.subscribe('read', payload => {
+  console.log('read:', payload);
+});
 
-socket.on('file-save', data => log(`${data.file} saved.`));
+db.subscribe('update', payload => {
+  console.log('update:', payload);
+});
+
+db.subscribe('delete', payload => {
+  console.log('delete:', payload);
+});
+
+files.subscribe('save', payload => {
+  console.log('save:', payload);
+});
+
+files.subscribe('error', payload => {
+  console.error('error:', payload);
+});

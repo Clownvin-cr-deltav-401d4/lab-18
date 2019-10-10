@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-const events = require('./events/file-events');
+const Q = require('@nmq/q/client');
 
 async function readFile(file) {
   let fileData;
@@ -15,9 +15,9 @@ async function readFile(file) {
   }));
 
   if (readError) {
-    events.emit('error', readError);
+    Q.publish('files', 'error', {error: readError});
   } else {
-    events.emit('read', file, fileData);
+    Q.publish('files', 'read', {file, data: fileData});
     return fileData;
   }
 }
@@ -34,9 +34,9 @@ async function writeFile(file, data) {
   }));
 
   if (writeError) {
-    events.emit('error', writeError);
+    Q.publish('files', 'error', {error: writeError});
   } else {
-    events.emit('write', file, data);
+    Q.publish('files', 'save', {file, data: data});
   }
 }
 
